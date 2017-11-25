@@ -5,7 +5,7 @@
 package com.java.exercise.shoppingcart.visitor;
 
 /**
- * DESCRIPTION - Everything what can be visited.
+ * DESCRIPTION - Used to implement visitor design pattern. Everything what can be visited.
  *
  * @author - Ritesh Bangal
  * @version 1.0

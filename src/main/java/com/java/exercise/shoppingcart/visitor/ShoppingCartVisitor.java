@@ -8,7 +8,7 @@ import com.java.exercise.shoppingcart.purchase.Item;
 import com.java.exercise.shoppingcart.purchase.ShoppingItem;
 
 /**
- * DESCRIPTION - This visitor interface and every item will have it’s own logic to calculate the cost.
+ * DESCRIPTION - This visitor interface and every item will have it’s own logic to calculate the cost of cart.
  * 
  * @author - Ritesh Bangal
  * @version 1.0

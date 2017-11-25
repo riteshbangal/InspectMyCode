@@ -13,7 +13,7 @@ import com.java.exercise.shoppingcart.visitor.ShoppingCartVisitor;
 import com.java.exercise.shoppingcart.visitor.Visitor;
 
 /**
- * DESCRIPTION - <code>ShoppingCart</code> represents a shopping cart of a <code>Customer</code>.
+ * DESCRIPTION - ShoppingCart represents a shopping cart of a Customer.
  * 
  * @author - Ritesh Bangal
  * @version 1.0
@@ -47,26 +47,46 @@ public class ShoppingCartImpl implements ShoppingCart {
 	/**
 	 * Add an item to the cart. Update of the quantity will be done if same product is added to the cart.
 	 *
-	 * @param cartItem the <code>ShoppingItem</code> to add
+	 * @param cartItem the ShoppingItem to add
 	 * @return the added cart item
+	 * @throws CloneNotSupportedException 
 	 */
 	@Override
-	public ShoppingItem addShoppingCartItem(ShoppingItem cartItem) {
-		if (items.contains(cartItem)) {
-			// TODOitems
+	public ShoppingItem addShoppingCartItem(ShoppingItem cartItem) throws CloneNotSupportedException {
+		if (items.stream().anyMatch(item -> cartItem.getProductId().equalsIgnoreCase(item.getProductId()))) {
+			ShoppingItem existingItem = items.stream()
+					.filter(item -> cartItem.getProductId().equalsIgnoreCase(item.getProductId()))
+					.findFirst().orElse(null);
+			
+			/*
+			 * Prototype pattern involves here to create a clone of the existingItem object.
+			 * If update is done on existing item, as it's a mutable object
+			 * data inconsistency is happening while adding same shopping item next time.
+			 * It's still holding updated quantity.
+			 */
+			ShoppingItem updatedItem = (ShoppingItem) existingItem.clone();
+			updatedItem.setQuantity(cartItem.getQuantity() + existingItem.getQuantity());
+			items.remove(existingItem);
+			items.add(updatedItem);
+			System.out.println("Quantity updated for Product: " + existingItem.getProductId());
+			return updatedItem;
+		} else {
+			items.add(cartItem);
 		}
-		items.add(cartItem);
 		return cartItem;
 	}
 
 	/**
-	 * Remove an item from the cart.
+	 * For time sake considering cartItemId and productId is same. 
+	 * Remove an item from the cart for that cartItemId/productId.
 	 *
-	 * @param cartItem the <code>ShoppingItem</code> to remove
+	 * @param cartItem the ShoppingItem to remove
 	 */
 	@Override
-	public void removeCartItem(ShoppingItem cartItem) {
-		items.remove(cartItem);
+	public void removeCartItem(String productId) {
+		items.stream()
+			.filter(item -> item.getProductId().equalsIgnoreCase(productId))
+			.findFirst().ifPresent(items::remove);
 	}
 
 	/**
@@ -82,12 +102,12 @@ public class ShoppingCartImpl implements ShoppingCart {
 	 * 
 	 * @return price - the new price (contains Currency)
 	 */
+	@Override
 	public Price calculateCartPrice() {
 		visitor.reset();
-        for (ShoppingItem item : items) {
-            item.accept(visitor);
-        }
-		return new Price(visitor.getResult(), "INR"); // Assuming all items having same currency. 
+		items.stream()
+			.forEach(item -> item.accept(visitor));
+		return new Price(visitor.getResult(), "INR"); // Assuming all items having same currency and hard-coded to 'INR'
 	}
 	
 	/**
@@ -96,6 +116,7 @@ public class ShoppingCartImpl implements ShoppingCart {
 	 * 
 	 * @param paymentMethod
 	 */
+	@Override
 	public void pay(PaymentStrategy paymentMethod) {
 		Price totalCartPrice = calculateCartPrice();
 		paymentMethod.pay(totalCartPrice);

@@ -9,6 +9,8 @@ import com.java.exercise.shoppingcart.visitor.Visitor;
 /**
  * DESCRIPTION - Represents a quantity, price of Products/SKUs in a shopping cart.
  * 
+ * Note - It can contains other attributes, like: item id, last modified date, discount, tax etc.
+ * 
  * @author - Ritesh Bangal
  * @version 1.0
  * @since <24-November-2017>
@@ -24,6 +26,11 @@ public class ShoppingItem implements Item {
 		this.productId = productId;
 		this.quantity = quantity;
 		this.price = price;
+	}
+	
+	@Override
+	public String toString() {
+		return "ShoppingItem: {productId=" + productId + ", quantity=" + quantity + ", price=" +  price + "}"; 
 	}
 	
 	@Override
@@ -56,5 +63,10 @@ public class ShoppingItem implements Item {
 	@Override
 	public void accept(Visitor<Item> pVisitor) {
 		pVisitor.visit(this);
+	}
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		return super.clone();
 	}
 }

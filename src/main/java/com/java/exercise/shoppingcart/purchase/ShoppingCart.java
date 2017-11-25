@@ -9,7 +9,7 @@ import java.util.Set;
 import com.java.exercise.shoppingcart.payment.PaymentStrategy;
 
 /**
- * DESCRIPTION - <code>ShoppingCart</code> represents a shopping cart of a <code>Customer</code>.
+ * DESCRIPTION - ShoppingCart represents a shopping cart of a Customer.
  * 
  * @author - Ritesh Bangal
  * @version 1.0
@@ -27,25 +27,38 @@ public interface ShoppingCart {
 	/**
 	 * Add an item to the cart. Update of the quantity will be done if same product is added to the cart.
 	 *
-	 * @param cartItem the <code>ShoppingItem</code> to add
+	 * @param cartItem the ShoppingItem to add
 	 * @return the added cart item
+	 * @throws CloneNotSupportedException 
 	 */
-	ShoppingItem addShoppingCartItem(ShoppingItem cartItem);
+	ShoppingItem addShoppingCartItem(ShoppingItem cartItem) throws CloneNotSupportedException;
 
 	/**
-	 * Remove an item from the cart.
+	 * For time sake considering cartItemId and productId is same. 
+	 * Remove an item from the cart for that cartItemId/productId.
 	 *
-	 * @param cartItem the <code>ShoppingItem</code> to remove
+	 * @param cartItemId/productId the ShoppingItem to remove
 	 */
-	void removeCartItem(ShoppingItem cartItem);
+	void removeCartItem(String cartItemId);
 
 	/**
 	 * Empties the shopping cart (e.g. after a checkout or remove all items at one shot)
 	 */
 	void clearItems();
 	
+	/**
+	 * Calculate total cart price using visitor design pattern.
+	 * 
+	 * @return price - the new price (contains Currency)
+	 */
 	public Price calculateCartPrice();
 	
+	/**
+	 * Shopping Cart has it's corresponding payment method.
+	 * Total cart price will be paid using this payment method.
+	 * 
+	 * @param paymentMethod
+	 */
 	public void pay(PaymentStrategy paymentMethod);
 
 }

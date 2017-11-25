@@ -7,13 +7,13 @@ package com.java.exercise.shoppingcart.purchase;
 import com.java.exercise.shoppingcart.visitor.Visitable;
 
 /**
- * DESCRIPTION - Represents a quantity, price of Products/SKUs in a shopping cart.
+ * DESCRIPTION - Represents a quantity, price of Products/SKUs in a shopping-cart/gift-card/wish-list item.
  * 
  * @author - Ritesh Bangal
  * @version 1.0
  * @since <24-November-2017>
  */
-public interface Item extends Visitable<Item> {
+public interface Item extends Visitable<Item>, Cloneable {
 	
 	/**
 	 * Get the product id of this item.
