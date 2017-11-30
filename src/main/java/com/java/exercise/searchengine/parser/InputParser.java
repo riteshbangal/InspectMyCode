@@ -1,0 +1,63 @@
+/*
+* Copyright (c) 2017, Ritesh. All rights reserved.
+*
+*/
+package com.java.exercise.searchengine.parser;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import com.java.exercise.searchengine.SearchConstants;
+import com.java.exercise.searchengine.keywordbased.Keyword;
+import com.java.exercise.searchengine.keywordbased.KeywordBasedSearchEngine;
+import com.java.exercise.searchengine.keywordbased.KeywordQuery;
+
+/**
+ * DESCRIPTION - This utility class is responsible to parse inputs into Map<String, List<Keyword>> 
+ * 				 and do search with search engine.
+ *
+ * Note: Input data consist of one line for each web page and query.
+ * 		 A line consists of a code letter followed by a list of keywords. 
+ * 		 Code letters P and Q denote a page and a query. 
+ * 		 Code letters and keywords are separated by at least one space. 
+ * 		 Ps and Qs may occur in any order.
+ * 
+ * @author - Ritesh
+ * @version 1.0
+ * @since <30-November-2017>
+ */
+public class InputParser {
+
+	public static void parseAndSearch(List<String> inputs) {
+
+		// Create an instance of SearchEngine, which will calculate optimum time.
+		KeywordBasedSearchEngine searchEngine = KeywordBasedSearchEngine.getInstance();
+		
+		Map<String, String> searchEntries = new LinkedHashMap<>();		
+		Map<String, List<Keyword>> pageEntries = new LinkedHashMap<>();
+
+		populateSearchAndPageEntries(inputs, searchEntries, pageEntries);
+		
+		// For each query, identify the 5 (or fewer) pages stored that are the most relevant to the query.
+		searchEntries.entrySet().stream().forEach(searchEntry -> System.out
+				.println(searchEngine.search(searchEntry.getKey(), searchEntry.getValue(), 5, pageEntries)));
+	}
+
+	public static void populateSearchAndPageEntries(List<String> inputs, 
+			Map<String, String> searchEntries, Map<String, List<Keyword>> pageEntries) {
+		
+		AtomicInteger searchIndex = new AtomicInteger(1);
+		AtomicInteger pageIndex = new AtomicInteger(1);
+		inputs.stream()
+			.forEach(input -> {
+				if (input.startsWith("Q")) {
+					searchEntries.put("Q" + searchIndex.getAndIncrement(), input.replaceFirst("Q", SearchConstants.EMPTY_STRING));
+				}
+				if (input.startsWith("P")) {
+					pageEntries.put("P" + pageIndex.getAndIncrement(), new KeywordQuery(input.replaceFirst("P", SearchConstants.EMPTY_STRING)).getKeywords());
+				}
+			});
+	}
+}
