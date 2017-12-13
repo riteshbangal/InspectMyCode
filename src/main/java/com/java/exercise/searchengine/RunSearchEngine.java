@@ -25,7 +25,7 @@ public class RunSearchEngine {
 	public static void main(String[] args) {
 		
 		List<String> inputs = new ArrayList<>();
-		inputs.add("P Ford Car Review");
+		/*inputs.add("P Ford Car Review");
 		inputs.add("P Review Car");
 		inputs.add("P Review Ford");
 		inputs.add("P Toyota Car");
@@ -36,7 +36,16 @@ public class RunSearchEngine {
 		inputs.add("Q Review");
 		inputs.add("Q Ford Review");
 		inputs.add("Q Ford Car");
-		inputs.add("Q cooking French");
+		inputs.add("Q cooking French");*/
+		
+		inputs.add("P Ford Car");
+		inputs.add("PP Review Car");
+		inputs.add("PP Review Ford");
+		inputs.add("P Toyota Car");
+		inputs.add("PP Car");
+		//inputs.add("Q Ford");
+		//inputs.add("Q Car");
+		inputs.add("Q Review");
 		
 		InputParser.parseAndSearch(inputs);
 	}

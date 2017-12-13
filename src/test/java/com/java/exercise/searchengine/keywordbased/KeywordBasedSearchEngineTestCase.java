@@ -32,7 +32,7 @@ public class KeywordBasedSearchEngineTestCase {
 	private KeywordBasedSearchEngine searchEngine = KeywordBasedSearchEngine.getInstance();
 
 	Map<String, String> searchEntries = new LinkedHashMap<>();		
-	Map<String, List<Keyword>> pageEntries = new LinkedHashMap<>();
+	Map<String, Page> pageEntries = new LinkedHashMap<>();
 	
 	List<String> inputs = new ArrayList<>();
 	List<String> outputs = new ArrayList<>();
@@ -65,6 +65,7 @@ public class KeywordBasedSearchEngineTestCase {
 
 	@Test
 	public void testSearch() {
+		
 		AtomicInteger outputIndex = new AtomicInteger(0);
 		// For each query, identify the 5 (or fewer) pages stored that are the most relevant to the query.
 		searchEntries.entrySet().stream()
