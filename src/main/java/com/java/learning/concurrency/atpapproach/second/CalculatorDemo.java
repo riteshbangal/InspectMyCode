@@ -19,8 +19,14 @@ public class CalculatorDemo {
 		
 		// Sequential execution
 		sequentialCalculation(inputs);
+		sequentialCalculation(inputs);
 
+		// Clear cache
+		MathCalculator.cachedClient.flushAll();
+		MathCalculator.ehcache.flush();
+		
 		// Parallel execution - 
+		parallelCalculation(2, inputs);
 		parallelCalculation(2, inputs);
 		/*parallelCalculation(3, inputs);
 		parallelCalculation(4, inputs);
@@ -30,6 +36,8 @@ public class CalculatorDemo {
 		parallelCalculation(8);
 		parallelCalculation(9);
 		parallelCalculation(100);*/
+		
+		MathCalculator.cacheManager.shutdown();
 	}
 
 	private static List<Input> prepareinputs() {
@@ -38,10 +46,10 @@ public class CalculatorDemo {
 		inputs.add(new Input(40, 20, "-"));
 		inputs.add(new Input(40, 20, "*"));
 		inputs.add(new Input(40, 20, "/"));
-		inputs.add(new Input(80, 50, "+"));
+		/*inputs.add(new Input(80, 50, "+"));
 		inputs.add(new Input(80, 50, "-"));
 		inputs.add(new Input(80, 50, "*"));
-		inputs.add(new Input(80, 50, "/"));
+		inputs.add(new Input(80, 50, "/"));*/
 		return inputs;
 	}
 
