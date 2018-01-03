@@ -9,7 +9,7 @@ public class HelloEhCache {
 	public static void main(String[] args) {
 
 		// 1. Create a cache manager
-		CacheManager cm = CacheManager.newInstance("src/main/resources/ehcache.xml");
+		CacheManager cm = CacheManager.newInstance("src/main/resources/hello-ehcache.xml");
 
 		// 2. Create a cache called "cache1"
 		//cm.addCache("cache1");
