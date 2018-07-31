@@ -55,6 +55,7 @@ public class ShoppingCartTestCase {
         shoppingCart.addShoppingCartItem(iphone5Item);
         shoppingCart.addShoppingCartItem(tshirtItem);
         assertEquals("138002.00 INR", shoppingCart.calculateCartPrice().toString());
+        
 	}
 	
 	@Test
