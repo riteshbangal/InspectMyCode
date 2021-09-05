@@ -21,7 +21,10 @@ public class FactorialCalculator implements Callable<Integer> {
 	public Integer call() throws Exception {
 		int result = 1;
 		if ((number == 0) || (number == 1)) {
-			result = 1;
+			//result = 1;
+			System.out.println("Number is 0 or 1. Creating an exception programmatically!");
+			TimeUnit.MILLISECONDS.sleep(2000);
+			throw new Exception("Number is 0 or 1. Creating an exception programmatically!");
 		} else {
 			for (int i = 2; i <= number; i++) {
 				result *= i;
